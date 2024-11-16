@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="my_package",  # The name of your package
+    name="mt",  # The name of your package
     version="0.0.1",  # Your package version
     packages=find_packages(),  # Automatically find package directories
     install_requires=[  # List your dependencies here (optional)
