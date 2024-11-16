@@ -11,28 +11,3 @@ Pipfile.lock
 
 # IDE/editor files
 .vscode/
-
-# Distribution / packaging
-*.egg
-*.egg-info/
-dist/
-build/
-*.tar.gz
-*.whl
-
-# Pytest cache
-.pytest_cache/
-
-# Logs
-*.log
-
-# Temporary files
-*.swp
-*.swo
-*.bak
-*.tmp
-*~
-
-# OS-specific files
-.DS_Store  # macOS
-Thumbs.db  # Windows
