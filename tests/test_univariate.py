@@ -1,4 +1,8 @@
 import unittest
+
+import sys
+sys.path.append('../src')  # Add the path to the src directory
+
 from mt.univariate import gini_coefficient
 
 class TestGiniCoefficient(unittest.TestCase):
