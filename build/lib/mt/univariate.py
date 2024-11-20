@@ -16,5 +16,5 @@ def gini_coefficient(y_true, y_pred):
     float: The calculated Gini Coefficient.
     """
     auc = roc_auc_score(y_true, y_pred)
-    gini = 2 * auc - 1
+    gini = float(2 * auc - 1)
     return gini

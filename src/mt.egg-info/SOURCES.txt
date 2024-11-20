@@ -8,3 +8,4 @@ src/mt.egg-info/PKG-INFO
 src/mt.egg-info/SOURCES.txt
 src/mt.egg-info/dependency_links.txt
 src/mt.egg-info/top_level.txt
+tests/test_univariate.py

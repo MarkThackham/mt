@@ -1,0 +1,20 @@
+# pipenv
+pipenv install -r requirements.txt
+
+# Mount the virtual environment in the shell
+pipenv shell
+
+# De-mount the virtual environment in the shell
+exit
+
+# Freeze versions of packages to requirements.txt
+pip freeze > requirements.txt
+
+
+
+
+# Build a package
+python setup.py sdist bdist_wheel
+
+# Install package from Git
+pip install git+https://github.com/MarkThackham/mt.git
