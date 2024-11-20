@@ -18,3 +18,17 @@ def gini_coefficient(y_true, y_pred):
     auc = roc_auc_score(y_true, y_pred)
     gini = float(2 * auc - 1)
     return gini
+
+
+def add_numbers(num1, num2):
+    """
+    Add two numbers.
+
+    Parameters:
+    num1 (int or float): The first number.
+    num2 (int or float): The second number.
+
+    Returns:
+    int or float: The sum of the two numbers.
+    """
+    return num1 + num2
