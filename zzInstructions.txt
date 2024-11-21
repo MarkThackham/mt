@@ -28,3 +28,8 @@ coverage html
 
 # Manually run tests
 python test_univariate.py
+
+
+# Manually run pylint
+pylint src/mt/univariate.py
+pylint src/mt/*.py
