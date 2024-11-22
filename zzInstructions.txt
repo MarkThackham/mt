@@ -1,3 +1,4 @@
+#===========================================
 # pipenv
 pipenv install -r requirements.txt
 
@@ -9,27 +10,34 @@ exit
 
 # Freeze versions of packages to requirements.txt
 pip freeze > requirements.txt
+#===========================================
 
 
-
-
+#===========================================
 # Build a package
 python -m build
 
 # Install package from Git
 pip install git+https://github.com/MarkThackham/mt.git
+#===========================================
 
 
-
+#===========================================
 # Manually run coverage report
 coverage run test_univariate.py
 coverage html
+#===========================================
 
 
+#===========================================
 # Manually run tests
 python test_univariate.py
+#===========================================
 
 
+#===========================================
 # Manually run pylint
 pylint src/mt/univariate.py
 pylint src/mt/*.py
+#===========================================
+
