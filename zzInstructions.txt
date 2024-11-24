@@ -16,7 +16,6 @@ pip freeze > requirements.txt
 #===========================================
 # Show if a package is available
 pip show pandas
-
 #===========================================
 
 

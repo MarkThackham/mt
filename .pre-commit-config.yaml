@@ -6,3 +6,9 @@ repos:
         entry: python -m unittest discover -s tests
         language: system
         pass_filenames: false
+
+      - id: pylint
+        name: Run pylint
+        entry: pylint src/mt/univariate.py
+        language: system
+        pass_filenames: false
