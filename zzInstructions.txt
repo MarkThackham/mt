@@ -23,15 +23,15 @@ pip install git+https://github.com/MarkThackham/mt.git
 
 
 #===========================================
+# Manually run tests (unittest )
+python test_univariate.py
+#===========================================
+
+
+#===========================================
 # Manually run coverage report
 coverage run test_univariate.py
 coverage html
-#===========================================
-
-
-#===========================================
-# Manually run tests (unittest )
-python test_univariate.py
 #===========================================
 
 
