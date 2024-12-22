@@ -7,43 +7,114 @@ Functions:
 - gini_coefficient(y_true, y_pred): 
 Calculate the Gini Coefficient from the given true and predicted values.
 
-- add_numbers(num1, num2): 
-Add two numbers.
+- binned_feature(y_true, feature, num_bins=4):
+Bin a feature based on the target variable.
+
+- woe_iv_calc(y_true, feature, num_bins=4):
+Calculate the Weight of Evidence (WoE) and Information Value (IV) for a given feature.
 """
 
 from sklearn.metrics import roc_auc_score
+import pandas as pd
+import numpy as np
 
-def gini_coefficient(y_true, y_pred):
+
+def binned_feature(y_true, feature, num_bins=4):
     """
-    Calculate the Gini Coefficient from the given true and predicted values.
+    Purpose:
+    Bin a feature based on the target variable.
+    
+    Parameters:
+    y_true (pd.Series): The target variable indicating the class labels.
+    feature (pd.Series): The feature to be binned, either numeric or categorical.
+    num_bins (int, optional): The number of bins to create for numeric features. Default is 4.
+    
+    Returns:
+    pd.Series: The binned feature.
 
-    The Gini Coefficient is a measure of inequality in a distribution,
-    where a Gini Coefficient of 0 indicates perfect equality (everyone has the same value),
-    and a Gini Coefficient of 1 indicates perfect inequality (one person has all the value, 
-    and everyone else has none).
+    Notes:
+    - If the feature is numeric, it will be binned into the specified number of bins using quantiles.
+    - If the feature is categorical, it will be used as is.
+    - The WoE table includes the count of y_true=0 and y_true=1, their proportions, WoE values, and IV components.
+    - The IV value is the sum of the IV components from the WoE table.
+    """
+
+    # Check if feature is numeric or categorical
+    if isinstance(feature.values[0], (int, float, np.number)):
+        # Feature for survivors
+        vals=feature[y_true==1]
+
+        # Bin Feature for y_true==1
+        out, bins=pd.qcut(vals, q=num_bins, duplicates='drop', retbins=True)
+        bins[0]=-999
+        bins[-1]=999
+
+        #Apply bins to Feature
+        binned_feature=pd.cut(feature, bins=bins)
+
+    elif isinstance(feature.values[0], str):
+        # Feature is categorical
+        binned_feature=feature
+    
+    return binned_feature
+
+
+def gini(y_true, y_pred, decimals=4):
+    """
+    Purpose:
+    Calculate the Gini coefficient based on true and predicted values.
+    The Gini coefficient is a measure of inequality or discrimination, 
+    commonly used in binary classification tasks. It is derived from 
+    the area under the ROC curve (AUC).
 
     Parameters:
-    y_true (array-like): The true values of the target variable.
-    y_pred (array-like): The predicted values of the target variable.
+    y_true (array-like): True binary labels.
+    y_pred (array-like): Predicted probabilities or scores.
 
     Returns:
-    float: The calculated Gini Coefficient.
+    Gini coefficient (float) value between -1 and 1
+    
+    Notes:
+    1 indicates perfect discrimination
+    0 indicates no discrimination
+    -1 indicates perfect inverse discrimination
     """
+
+    # Calculate AUC
     auc = roc_auc_score(y_true, y_pred)
-    gini = float(2 * auc - 1)
+
+    # Calculate Gini coefficient
+    gini = round(float(2 * auc - 1), decimals)
 
     return gini
 
 
-def add_numbers(num1, num2):
+def woe_iv_calc(y_true, feature, num_bins=4):
     """
-    Add two numbers.
-
+    Purpose:
+    Calculate Weight of Evidence (WoE) and Information Value (IV) for a given feature.
+    
     Parameters:
-    num1 (int or float): The first number.
-    num2 (int or float): The second number.
+    y_true (pd.Series): The target variable (binary) indicating the outcome.
+    feature (pd.Series): The feature for which WoE and IV are to be calculated.
+    num_bins (int, optional): The number of bins to use for numeric features. Default is 4.
 
     Returns:
-    int or float: The sum of the two numbers.
+    list: A list containing the WoE table (pd.DataFrame) and the IV value (float).
     """
-    return num1 + num2
+
+    # Check if feature is numeric or categorical
+    this_binned_feature=binned_feature(y_true, feature, num_bins=num_bins)
+
+    # Calculate WoE
+    woe_table=pd.crosstab(index=this_binned_feature,columns=y_true)
+    woe_table['Total']=woe_table[0] + woe_table[1]
+    woe_table['P0']=woe_table[0] / woe_table[0].sum()
+    woe_table['P1']=woe_table[1] / woe_table[1].sum()
+    woe_table['woe']=np.log(woe_table['P1']/woe_table['P0'])
+    woe_table['iv_comp']=woe_table['woe'] * (woe_table['P1'] - woe_table['P0'])
+
+    # Calculate IV;
+    iv=woe_table['iv_comp'].sum()
+
+    return [woe_table, iv]

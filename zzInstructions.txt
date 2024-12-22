@@ -1,17 +1,6 @@
 #===========================================
 # Notes
-Git
--Branch 
--Push DONE
--Pull request
--Merge
-Package
--Virtual Environment DONE
--Build with setup.py DONE
--Unit Test DONE
--Pre-comit hook DONE
--IntegrationTest
--Linting DONE
+
 #===========================================
 
 
