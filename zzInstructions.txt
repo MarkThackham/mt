@@ -37,6 +37,9 @@ pip install git+https://github.com/MarkThackham/mt.git
 #===========================================
 # Manually run tests (unittest )
 python test_univariate.py
+
+# Run all tests from the /tests direcotry
+python -m unittest discover
 #===========================================
 
 
