@@ -1,0 +1,10 @@
+# Data Dictionary
+# Preg - Number of times pregnant Numeric
+# GlucPlasma - glucose concentration at 2 Hours in an oral glucose tolerance test (GTIT)
+# BP - Diastolic Blood Pressure (mm Hg)
+# Skin Triceps - skin fold thickness (mm)
+# Insulin 2-Hour Serum insulin (lh/ml)
+# BMI - Body mass index [weight in kg/(Height in m)]
+# DPF - Diabetes pedigree function
+# Age - Age (years)
+# Outcome - Binary value indicating non-diabetic /diabetic Factor [0,1]
