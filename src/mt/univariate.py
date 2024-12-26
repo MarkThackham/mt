@@ -19,7 +19,7 @@ import pandas as pd
 import numpy as np
 
 
-def binned_feature(y_true, feature, num_bins=4):
+def bin_feature(y_true, feature, num_bins=4):
     """
     Purpose:
     Bin a feature based on the target variable.
@@ -33,19 +33,21 @@ def binned_feature(y_true, feature, num_bins=4):
     pd.Series: The binned feature.
 
     Notes:
-    - If the feature is numeric, it will be binned into the specified number of bins using quantiles.
+    - If the feature is numeric, it will be quatile binned.
     - If the feature is categorical, it will be used as is.
-    - The WoE table includes the count of y_true=0 and y_true=1, their proportions, WoE values, and IV components.
+    - Table includes counts of y_true=0 and y_true=1, their proportions, 
+      WoE values, and IV components.
     - The IV value is the sum of the IV components from the WoE table.
     """
 
     # Check if feature is numeric or categorical
+    binned_feature=None
     if isinstance(feature.values[0], (int, float, np.number)):
         # Feature for survivors
         vals=feature[y_true==1]
 
         # Bin Feature for y_true==1
-        out, bins=pd.qcut(vals, q=num_bins, duplicates='drop', retbins=True)
+        _ , bins=pd.qcut(vals, q=num_bins, duplicates='drop', retbins=True)
         bins[0]=-999
         bins[-1]=999
 
@@ -55,7 +57,7 @@ def binned_feature(y_true, feature, num_bins=4):
     elif isinstance(feature.values[0], str):
         # Feature is categorical
         binned_feature=feature
-    
+
     return binned_feature
 
 
@@ -84,9 +86,9 @@ def gini(y_true, y_pred, decimals=4):
     auc = roc_auc_score(y_true, y_pred)
 
     # Calculate Gini coefficient
-    gini = round(float(2 * auc - 1), decimals)
+    gini_value = round(float(2 * auc - 1), decimals)
 
-    return gini
+    return gini_value
 
 
 def woe_iv_calc(y_true, feature, num_bins=4):
@@ -104,7 +106,7 @@ def woe_iv_calc(y_true, feature, num_bins=4):
     """
 
     # Check if feature is numeric or categorical
-    this_binned_feature=binned_feature(y_true, feature, num_bins=num_bins)
+    this_binned_feature=bin_feature(y_true, feature, num_bins=num_bins)
 
     # Calculate WoE
     woe_table=pd.crosstab(index=this_binned_feature,columns=y_true)
